@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { cn } from './ui/utils';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 interface Alert {
   id: string;
@@ -235,18 +235,18 @@ export default function AlertsPage() {
   const [activeTab, setActiveTab] = useState('all');
 
   const filteredAlerts = alerts.filter(a => {
-    const matchesSearch = 
+    const matchesSearch =
       a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (a.contributor && a.contributor.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (a.ruc && a.ruc.includes(searchTerm));
     const matchesType = typeFilter === 'all' || a.type === typeFilter;
     const matchesStatus = statusFilter === 'all' || a.status === statusFilter;
     const matchesCategory = categoryFilter === 'all' || a.category === categoryFilter;
-    const matchesTab = activeTab === 'all' || 
+    const matchesTab = activeTab === 'all' ||
       (activeTab === 'nuevas' && a.status === 'nueva') ||
       (activeTab === 'proceso' && a.status === 'en-proceso') ||
       (activeTab === 'resueltas' && a.status === 'resuelta');
-    
+
     return matchesSearch && matchesType && matchesStatus && matchesCategory && matchesTab;
   }).sort((a, b) => b.priority - a.priority);
 
@@ -472,11 +472,11 @@ export default function AlertsPage() {
                               )}
                               <span className="flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
-                                {new Date(alert.date).toLocaleString('es-PE', { 
-                                  day: '2-digit', 
-                                  month: 'short', 
-                                  hour: '2-digit', 
-                                  minute: '2-digit' 
+                                {new Date(alert.date).toLocaleString('es-PE', {
+                                  day: '2-digit',
+                                  month: 'short',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
                                 })}
                               </span>
                               <span className="text-xs bg-gray-100 px-2 py-1 rounded">

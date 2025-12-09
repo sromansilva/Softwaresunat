@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Separator } from './ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { Slider } from './ui/slider';
 import { useTheme } from '../contexts/ThemeContext';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
@@ -33,11 +33,11 @@ const DEFAULT_SETTINGS = {
   criticalAlerts: true,
   weeklyReports: true,
   monthlyReports: true,
-  
+
   // Security
   twoFactorAuth: false,
   sessionTimeout: [30],
-  
+
   // System
   autoAssignCases: false,
   aiAnalytics: true,
@@ -46,7 +46,7 @@ const DEFAULT_SETTINGS = {
   timezone: 'america-lima',
   dateFormat: 'dd-mm-yyyy',
   currency: 'pen',
-  
+
   // Appearance
   darkMode: false,
   interfaceDensity: 'normal',
@@ -58,13 +58,13 @@ const DEFAULT_SETTINGS = {
 export default function SettingsPage({ currentUser }: SettingsPageProps) {
   // Get theme context
   const { accentColor: globalAccentColor, setAccentColor: setGlobalAccentColor } = useTheme();
-  
+
   // Parse user name
   const nameParts = currentUser.name.split(' ');
   const userFirstName = nameParts[0] || 'Usuario';
   const userLastName = nameParts.slice(1).join(' ') || 'SUNAT';
   const userEmail = `${currentUser.code.toLowerCase()}@sunat.gob.pe`;
-  
+
   // User profile states
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   const [firstName, setFirstName] = useState(userFirstName);
@@ -72,7 +72,7 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
   const [email, setEmail] = useState(userEmail);
   const [phone, setPhone] = useState('+51 987 654 321');
   const [office, setOffice] = useState('lima');
-  
+
   // Notification states
   const [emailNotifications, setEmailNotifications] = useState(DEFAULT_SETTINGS.emailNotifications);
   const [pushNotifications, setPushNotifications] = useState(DEFAULT_SETTINGS.pushNotifications);
@@ -80,14 +80,14 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
   const [weeklyReports, setWeeklyReports] = useState(DEFAULT_SETTINGS.weeklyReports);
   const [monthlyReports, setMonthlyReports] = useState(DEFAULT_SETTINGS.monthlyReports);
   const [notificationEmail, setNotificationEmail] = useState(userEmail);
-  
+
   // Security states
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [twoFactorAuth, setTwoFactorAuth] = useState(DEFAULT_SETTINGS.twoFactorAuth);
   const [sessionTimeout, setSessionTimeout] = useState(DEFAULT_SETTINGS.sessionTimeout);
-  
+
   // System states
   const [autoAssignCases, setAutoAssignCases] = useState(DEFAULT_SETTINGS.autoAssignCases);
   const [aiAnalytics, setAiAnalytics] = useState(DEFAULT_SETTINGS.aiAnalytics);
@@ -96,7 +96,7 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
   const [timezone, setTimezone] = useState(DEFAULT_SETTINGS.timezone);
   const [dateFormat, setDateFormat] = useState(DEFAULT_SETTINGS.dateFormat);
   const [currency, setCurrency] = useState(DEFAULT_SETTINGS.currency);
-  
+
   // Appearance states
   const [darkMode, setDarkMode] = useState(DEFAULT_SETTINGS.darkMode);
   const [interfaceDensity, setInterfaceDensity] = useState(DEFAULT_SETTINGS.interfaceDensity);
@@ -112,7 +112,7 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
   const [comprobantesUrl, setComprobantesUrl] = useState('https://api.sunat.gob.pe/comprobantes');
   const [iaVersion, setIaVersion] = useState('2.4.1');
   const [iaModelConfig, setIaModelConfig] = useState('gpt-4-turbo');
-  
+
   // Dialog states
   const [showApiDialog, setShowApiDialog] = useState(false);
   const [showComprobantesDialog, setShowComprobantesDialog] = useState(false);
@@ -128,7 +128,7 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
     if (savedSettings) {
       try {
         const parsed = JSON.parse(savedSettings);
-        
+
         // Load user profile
         setProfilePhoto(parsed.profilePhoto || null);
         setFirstName(parsed.firstName || userFirstName);
@@ -136,18 +136,18 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
         setEmail(parsed.email || userEmail);
         setPhone(parsed.phone || '+51 987 654 321');
         setOffice(parsed.office || 'lima');
-        
+
         // Load notifications
         setEmailNotifications(parsed.emailNotifications ?? DEFAULT_SETTINGS.emailNotifications);
         setPushNotifications(parsed.pushNotifications ?? DEFAULT_SETTINGS.pushNotifications);
         setCriticalAlerts(parsed.criticalAlerts ?? DEFAULT_SETTINGS.criticalAlerts);
         setWeeklyReports(parsed.weeklyReports ?? DEFAULT_SETTINGS.weeklyReports);
         setMonthlyReports(parsed.monthlyReports ?? DEFAULT_SETTINGS.monthlyReports);
-        
+
         // Load security
         setTwoFactorAuth(parsed.twoFactorAuth ?? DEFAULT_SETTINGS.twoFactorAuth);
         setSessionTimeout(parsed.sessionTimeout || DEFAULT_SETTINGS.sessionTimeout);
-        
+
         // Load system
         setAutoAssignCases(parsed.autoAssignCases ?? DEFAULT_SETTINGS.autoAssignCases);
         setAiAnalytics(parsed.aiAnalytics ?? DEFAULT_SETTINGS.aiAnalytics);
@@ -156,7 +156,7 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
         setTimezone(parsed.timezone || DEFAULT_SETTINGS.timezone);
         setDateFormat(parsed.dateFormat || DEFAULT_SETTINGS.dateFormat);
         setCurrency(parsed.currency || DEFAULT_SETTINGS.currency);
-        
+
         // Load appearance
         setDarkMode(parsed.darkMode ?? DEFAULT_SETTINGS.darkMode);
         setInterfaceDensity(parsed.interfaceDensity || DEFAULT_SETTINGS.interfaceDensity);
@@ -177,13 +177,13 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
         toast.error('Por favor selecciona una imagen válida');
         return;
       }
-      
+
       // Validate file size (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         toast.error('La imagen no debe superar los 2MB');
         return;
       }
-      
+
       // Convert to base64
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -207,18 +207,18 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
       email,
       phone,
       office,
-      
+
       // Notifications
       emailNotifications,
       pushNotifications,
       criticalAlerts,
       weeklyReports,
       monthlyReports,
-      
+
       // Security
       twoFactorAuth,
       sessionTimeout,
-      
+
       // System
       autoAssignCases,
       aiAnalytics,
@@ -227,7 +227,7 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
       timezone,
       dateFormat,
       currency,
-      
+
       // Appearance
       darkMode,
       interfaceDensity,
@@ -235,7 +235,7 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
       accentColor: globalAccentColor, // Use global accent color from context
       defaultPage,
     };
-    
+
     localStorage.setItem('sunat_settings', JSON.stringify(settings));
     toast.success('Configuración guardada exitosamente', {
       description: 'Todos los cambios han sido aplicados correctamente'
@@ -250,16 +250,16 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
     setEmail(userEmail);
     setPhone('+51 987 654 321');
     setOffice('lima');
-    
+
     setEmailNotifications(DEFAULT_SETTINGS.emailNotifications);
     setPushNotifications(DEFAULT_SETTINGS.pushNotifications);
     setCriticalAlerts(DEFAULT_SETTINGS.criticalAlerts);
     setWeeklyReports(DEFAULT_SETTINGS.weeklyReports);
     setMonthlyReports(DEFAULT_SETTINGS.monthlyReports);
-    
+
     setTwoFactorAuth(DEFAULT_SETTINGS.twoFactorAuth);
     setSessionTimeout(DEFAULT_SETTINGS.sessionTimeout);
-    
+
     setAutoAssignCases(DEFAULT_SETTINGS.autoAssignCases);
     setAiAnalytics(DEFAULT_SETTINGS.aiAnalytics);
     setRiskThreshold(DEFAULT_SETTINGS.riskThreshold);
@@ -267,21 +267,21 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
     setTimezone(DEFAULT_SETTINGS.timezone);
     setDateFormat(DEFAULT_SETTINGS.dateFormat);
     setCurrency(DEFAULT_SETTINGS.currency);
-    
+
     setDarkMode(DEFAULT_SETTINGS.darkMode);
     setInterfaceDensity(DEFAULT_SETTINGS.interfaceDensity);
     setFontSize(DEFAULT_SETTINGS.fontSize);
     setGlobalAccentColor(DEFAULT_SETTINGS.accentColor); // Use global setter from context
     setDefaultPage(DEFAULT_SETTINGS.defaultPage);
-    
+
     // Clear password fields
     setCurrentPassword('');
     setNewPassword('');
     setConfirmPassword('');
-    
+
     // Clear from localStorage
     localStorage.removeItem('sunat_settings');
-    
+
     toast.info('Configuración restablecida', {
       description: 'Todos los valores han vuelto a sus valores predeterminados'
     });
@@ -292,27 +292,27 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
       toast.error('Por favor completa todos los campos de contraseña');
       return;
     }
-    
+
     if (currentPassword !== 'sunat2024') {
       toast.error('La contraseña actual es incorrecta');
       return;
     }
-    
+
     if (newPassword !== confirmPassword) {
       toast.error('Las contraseñas no coinciden');
       return;
     }
-    
+
     if (newPassword.length < 6) {
       toast.error('La nueva contraseña debe tener al menos 6 caracteres');
       return;
     }
-    
+
     // Clear fields
     setCurrentPassword('');
     setNewPassword('');
     setConfirmPassword('');
-    
+
     toast.success('Contraseña actualizada exitosamente', {
       description: 'Tu contraseña ha sido cambiada correctamente'
     });
@@ -479,17 +479,17 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">Nombres</Label>
-                  <Input 
-                    id="firstName" 
-                    value={firstName} 
+                  <Input
+                    id="firstName"
+                    value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Apellidos</Label>
-                  <Input 
-                    id="lastName" 
-                    value={lastName} 
+                  <Input
+                    id="lastName"
+                    value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
@@ -498,19 +498,19 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Correo Electrónico</Label>
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    value={email} 
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Teléfono</Label>
-                  <Input 
-                    id="phone" 
-                    type="tel" 
-                    value={phone} 
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
@@ -624,27 +624,27 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
                   <div className="space-y-3">
                     <div className="space-y-2">
                       <Label htmlFor="currentPassword">Contraseña Actual</Label>
-                      <Input 
-                        id="currentPassword" 
-                        type="password" 
+                      <Input
+                        id="currentPassword"
+                        type="password"
                         value={currentPassword}
                         onChange={(e) => setCurrentPassword(e.target.value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="newPassword">Nueva Contraseña</Label>
-                      <Input 
-                        id="newPassword" 
-                        type="password" 
+                      <Input
+                        id="newPassword"
+                        type="password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="confirmPassword">Confirmar Nueva Contraseña</Label>
-                      <Input 
-                        id="confirmPassword" 
-                        type="password" 
+                      <Input
+                        id="confirmPassword"
+                        type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                       />
@@ -697,8 +697,8 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
                       <p className="text-sm">Windows - Chrome</p>
                       <p className="text-xs text-gray-500">Lima, Perú - Activa ahora</p>
                     </div>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => handleCloseSession('Windows - Chrome')}
                     >
@@ -710,8 +710,8 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
                       <p className="text-sm">Android - Mobile App</p>
                       <p className="text-xs text-gray-500">Lima, Perú - Hace 2 horas</p>
                     </div>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => handleCloseSession('Android - Mobile App')}
                     >
@@ -896,11 +896,10 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
                   ].map((item) => (
                     <button
                       key={item.name}
-                      className={`w-12 h-12 rounded-lg border-2 transition-all ${
-                        globalAccentColor === item.color 
-                          ? 'border-gray-900 ring-2 ring-offset-2 ring-gray-400' 
+                      className={`w-12 h-12 rounded-lg border-2 transition-all ${globalAccentColor === item.color
+                          ? 'border-gray-900 ring-2 ring-offset-2 ring-gray-400'
                           : 'border-gray-200 hover:border-gray-400'
-                      }`}
+                        }`}
                       style={{ backgroundColor: item.color }}
                       title={item.name}
                       onClick={() => {
@@ -1034,24 +1033,24 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
                 <div>
                   <h4 className="text-sm mb-3">Mantenimiento</h4>
                   <div className="space-y-3">
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="w-full justify-start"
                       onClick={handleClearCache}
                     >
                       <Database className="w-4 h-4 mr-2" />
                       Limpiar Caché del Sistema
                     </Button>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="w-full justify-start"
                       onClick={handleOptimizeDB}
                     >
                       <Zap className="w-4 h-4 mr-2" />
                       Optimizar Base de Datos
                     </Button>
-                    <Button 
-                      variant="destructive" 
+                    <Button
+                      variant="destructive"
                       className="w-full justify-start"
                       onClick={handleRestartSystem}
                     >
@@ -1102,9 +1101,9 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="apiSunatKey">Clave de API</Label>
-              <Input 
-                id="apiSunatKey" 
-                value={apiSunatKey} 
+              <Input
+                id="apiSunatKey"
+                value={apiSunatKey}
                 onChange={(e) => setApiSunatKey(e.target.value)}
               />
             </div>
@@ -1129,9 +1128,9 @@ export default function SettingsPage({ currentUser }: SettingsPageProps) {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="comprobantesUrl">URL del Servicio</Label>
-              <Input 
-                id="comprobantesUrl" 
-                value={comprobantesUrl} 
+              <Input
+                id="comprobantesUrl"
+                value={comprobantesUrl}
                 onChange={(e) => setComprobantesUrl(e.target.value)}
               />
             </div>

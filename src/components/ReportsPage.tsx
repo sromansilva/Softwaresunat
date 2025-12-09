@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from './ui/label';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -98,7 +98,7 @@ export default function ReportsPage() {
   const [period, setPeriod] = useState('monthly');
   const [selectedReport, setSelectedReport] = useState<string>('dashboard');
 
-  const filteredReports = reports.filter(r => 
+  const filteredReports = reports.filter(r =>
     reportType === 'all' || r.type.toLowerCase() === reportType
   );
 
@@ -114,7 +114,7 @@ export default function ReportsPage() {
       // === HEADER ===
       doc.setFillColor(0, 56, 118);
       doc.rect(0, 0, pageWidth, 40, 'F');
-      
+
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(22);
       doc.text('SUNAT', 15, 18);
@@ -122,21 +122,21 @@ export default function ReportsPage() {
       doc.text('Superintendencia Nacional de Aduanas y de Administración Tributaria', 15, 26);
       doc.setFontSize(10);
       doc.text('Reporte Ejecutivo de Fiscalización Tributaria', 15, 34);
-      
+
       doc.setTextColor(0, 0, 0);
 
       // === TÍTULO DEL REPORTE ===
       yPos = 50;
       doc.setFontSize(16);
       doc.setTextColor(0, 56, 118);
-      const reportTypeLabel = period === 'monthly' ? 'Mensual' : 
-                              period === 'quarterly' ? 'Trimestral' :
-                              period === 'annual' ? 'Anual' : 'Personalizado';
+      const reportTypeLabel = period === 'monthly' ? 'Mensual' :
+        period === 'quarterly' ? 'Trimestral' :
+          period === 'annual' ? 'Anual' : 'Personalizado';
       doc.text(`Reporte ${reportTypeLabel} de Fiscalización`, 15, yPos);
       doc.setFontSize(10);
       doc.setTextColor(100, 100, 100);
       doc.text(`Generado el ${new Date().toLocaleDateString('es-PE')} a las ${new Date().toLocaleTimeString('es-PE')}`, 15, yPos + 6);
-      
+
       doc.setTextColor(0, 0, 0);
 
       // === SECCIÓN 1: KPIs PRINCIPALES ===
@@ -147,9 +147,9 @@ export default function ReportsPage() {
       doc.setFontSize(12);
       doc.text('1. INDICADORES CLAVE DE DESEMPEÑO (KPIs)', 20, yPos + 5.5);
       doc.setTextColor(0, 0, 0);
-      
+
       yPos += 15;
-      
+
       // KPI Cards
       const kpiData = [
         { label: 'Total Recaudado', value: 'S/. 28.0M', change: '+12% vs mes anterior', color: [34, 197, 94] },
@@ -166,22 +166,22 @@ export default function ReportsPage() {
       kpiData.forEach((kpi, index) => {
         doc.setFillColor(245, 245, 245);
         doc.roundedRect(xPos, yPos, cardWidth, cardHeight, 2, 2, 'F');
-        
+
         doc.setFontSize(8);
         doc.setTextColor(100, 100, 100);
         doc.text(kpi.label, xPos + 2, yPos + 5);
-        
+
         doc.setFontSize(14);
         doc.setTextColor(0, 56, 118);
         doc.text(kpi.value, xPos + 2, yPos + 13);
-        
+
         doc.setFontSize(7);
-        doc.setTextColor(...kpi.color);
+        doc.setTextColor(kpi.color[0], kpi.color[1], kpi.color[2]);
         doc.text(kpi.change, xPos + 2, yPos + 19);
-        
+
         xPos += cardWidth + gap;
       });
-      
+
       yPos += cardHeight + 10;
 
       // === SECCIÓN 2: RECAUDACIÓN MENSUAL ===
@@ -191,7 +191,7 @@ export default function ReportsPage() {
       doc.setFontSize(12);
       doc.text('2. RECAUDACIÓN MENSUAL VS OBJETIVO', 20, yPos + 5.5);
       doc.setTextColor(0, 0, 0);
-      
+
       yPos += 10;
 
       // Table for monthly data
@@ -236,7 +236,7 @@ export default function ReportsPage() {
           }
         }
       });
-      
+
       yPos = (doc as any).lastAutoTable.finalY + 15;
 
       // === SECCIÓN 3: DISTRIBUCIÓN POR TIPO ===
@@ -251,12 +251,12 @@ export default function ReportsPage() {
       doc.setFontSize(12);
       doc.text('3. DISTRIBUCIÓN DE CASOS POR TIPO', 20, yPos + 5.5);
       doc.setTextColor(0, 0, 0);
-      
+
       yPos += 15;
 
       // Pie chart data as table
       const totalCases = casesByTypeData.reduce((sum, item) => sum + item.value, 0);
-      
+
       autoTable(doc, {
         startY: yPos,
         head: [['Tipo de Caso', 'Cantidad', 'Porcentaje', 'Estado']],
@@ -280,7 +280,7 @@ export default function ReportsPage() {
         },
         theme: 'striped'
       });
-      
+
       yPos = (doc as any).lastAutoTable.finalY + 5;
 
       // Visual representation
@@ -288,30 +288,30 @@ export default function ReportsPage() {
       const barStartX = 20;
       const barWidth = pageWidth - 40;
       const barHeight = 15;
-      
+
       doc.setFontSize(9);
       doc.text('Distribución Visual:', barStartX, yPos);
       yPos += 5;
-      
+
       let currentX = barStartX;
       casesByTypeData.forEach((item, index) => {
         const segmentWidth = (barWidth * item.value) / 100;
         const rgb = item.color.match(/\w\w/g)?.map(x => parseInt(x, 16)) || [0, 56, 118];
         doc.setFillColor(rgb[0], rgb[1], rgb[2]);
         doc.rect(currentX, yPos, segmentWidth, barHeight, 'F');
-        
+
         if (segmentWidth > 15) {
           doc.setTextColor(255, 255, 255);
           doc.setFontSize(8);
           doc.text(`${item.value}%`, currentX + segmentWidth / 2, yPos + barHeight / 2 + 2, { align: 'center' });
         }
-        
+
         currentX += segmentWidth;
       });
-      
+
       doc.setTextColor(0, 0, 0);
       yPos += barHeight + 10;
-      
+
       // Legend
       doc.setFontSize(8);
       let legendX = barStartX;
@@ -322,7 +322,7 @@ export default function ReportsPage() {
         doc.text(item.name, legendX + 6, yPos + 3);
         legendX += 35;
       });
-      
+
       yPos += 15;
 
       // === SECCIÓN 4: DESEMPEÑO DE AUDITORES ===
@@ -337,7 +337,7 @@ export default function ReportsPage() {
       doc.setFontSize(12);
       doc.text('4. DESEMPEÑO DE AUDITORES', 20, yPos + 5.5);
       doc.setTextColor(0, 0, 0);
-      
+
       yPos += 10;
 
       autoTable(doc, {
@@ -381,7 +381,7 @@ export default function ReportsPage() {
           }
         }
       });
-      
+
       yPos = (doc as any).lastAutoTable.finalY + 15;
 
       // === SECCIÓN 5: RESUMEN Y RECOMENDACIONES ===
@@ -396,7 +396,7 @@ export default function ReportsPage() {
       doc.setFontSize(12);
       doc.text('5. RESUMEN Y RECOMENDACIONES', 20, yPos + 5.5);
       doc.setTextColor(0, 0, 0);
-      
+
       yPos += 15;
       doc.setFontSize(9);
 
@@ -427,7 +427,7 @@ export default function ReportsPage() {
       doc.setTextColor(0, 56, 118);
       doc.text('Recomendaciones Estratégicas:', 20, yPos);
       yPos += 7;
-      
+
       doc.setFontSize(9);
       doc.setTextColor(0, 0, 0);
 
@@ -452,7 +452,7 @@ export default function ReportsPage() {
       // === FOOTER ===
       doc.setFillColor(240, 240, 240);
       doc.rect(0, pageHeight - 20, pageWidth, 20, 'F');
-      
+
       doc.setFontSize(8);
       doc.setTextColor(100, 100, 100);
       doc.text(`Generado el ${new Date().toLocaleDateString('es-PE')} a las ${new Date().toLocaleTimeString('es-PE')}`, 15, pageHeight - 12);
@@ -476,13 +476,13 @@ export default function ReportsPage() {
       const fileName = `Reporte_Fiscalizacion_${reportTypeLabel}_${new Date().toISOString().split('T')[0]}.pdf`;
       doc.save(fileName);
 
-      toast.success('Reporte generado exitosamente', { 
+      toast.success('Reporte generado exitosamente', {
         id: 'pdf-generation',
         description: `Archivo descargado: ${fileName}`
       });
     } catch (error) {
       console.error('Error generating PDF:', error);
-      toast.error('Error al generar el reporte', { 
+      toast.error('Error al generar el reporte', {
         id: 'pdf-generation',
         description: 'Por favor, intente nuevamente'
       });
@@ -509,7 +509,7 @@ export default function ReportsPage() {
 
       {/* Report Type Tabs */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <Card 
+        <Card
           className={`cursor-pointer transition-all ${selectedReport === 'dashboard' ? 'ring-2 ring-[#003876]' : ''}`}
           onClick={() => setSelectedReport('dashboard')}
         >
@@ -521,7 +521,7 @@ export default function ReportsPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className={`cursor-pointer transition-all ${selectedReport === 'cases' ? 'ring-2 ring-[#003876]' : ''}`}
           onClick={() => setSelectedReport('cases')}
         >
@@ -533,7 +533,7 @@ export default function ReportsPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className={`cursor-pointer transition-all ${selectedReport === 'collection' ? 'ring-2 ring-[#003876]' : ''}`}
           onClick={() => setSelectedReport('collection')}
         >
@@ -545,7 +545,7 @@ export default function ReportsPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className={`cursor-pointer transition-all ${selectedReport === 'auditors' ? 'ring-2 ring-[#003876]' : ''}`}
           onClick={() => setSelectedReport('auditors')}
         >
@@ -557,7 +557,7 @@ export default function ReportsPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className={`cursor-pointer transition-all ${selectedReport === 'risk' ? 'ring-2 ring-[#003876]' : ''}`}
           onClick={() => setSelectedReport('risk')}
         >
@@ -702,7 +702,7 @@ export default function ReportsPage() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis />
-                    <Tooltip 
+                    <Tooltip
                       formatter={(value: number) => `S/. ${(value / 1000000).toFixed(1)}M`}
                     />
                     <Legend />
@@ -756,10 +756,10 @@ export default function ReportsPage() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
                 <YAxis dataKey="name" type="category" width={120} />
-                <Tooltip 
-                  formatter={(value: number, name: string) => 
-                    name === 'recuperacion' 
-                      ? `S/. ${(value / 1000000).toFixed(2)}M` 
+                <Tooltip
+                  formatter={(value: number, name: string) =>
+                    name === 'recuperacion'
+                      ? `S/. ${(value / 1000000).toFixed(2)}M`
                       : value
                   }
                 />
@@ -784,22 +784,22 @@ export default function ReportsPage() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
-                <Tooltip 
+                <Tooltip
                   formatter={(value: number) => `S/. ${(value / 1000000).toFixed(1)}M`}
                 />
                 <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="recaudado" 
-                  stroke="#003876" 
+                <Line
+                  type="monotone"
+                  dataKey="recaudado"
+                  stroke="#003876"
                   strokeWidth={3}
                   name="Recaudado"
                   dot={{ r: 6 }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="objetivo" 
-                  stroke="#E74C3C" 
+                <Line
+                  type="monotone"
+                  dataKey="objetivo"
+                  stroke="#E74C3C"
                   strokeWidth={2}
                   strokeDasharray="5 5"
                   name="Objetivo"
@@ -909,9 +909,9 @@ export default function ReportsPage() {
                   <Button variant="ghost" size="sm" title="Compartir">
                     <Share2 className="w-4 h-4" />
                   </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => handleDownloadReport(report)}
                     title="Descargar"
                   >

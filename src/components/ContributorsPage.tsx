@@ -267,7 +267,7 @@ export default function ContributorsPage() {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const filteredContributors = contributors.filter(c => {
-    const matchesSearch = 
+    const matchesSearch =
       c.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.ruc.includes(searchTerm) ||
       c.tradeName.toLowerCase().includes(searchTerm.toLowerCase());
@@ -301,7 +301,7 @@ export default function ContributorsPage() {
     // === HEADER ===
     doc.setFillColor(0, 56, 118);
     doc.rect(0, 0, pageWidth, 40, 'F');
-    
+
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(22);
     doc.text('SUNAT', 15, 18);
@@ -309,21 +309,21 @@ export default function ContributorsPage() {
     doc.text('Superintendencia Nacional de Aduanas y de Administración Tributaria', 15, 26);
     doc.setFontSize(10);
     doc.text('Reporte de Contribuyente - Análisis Completo', 15, 34);
-    
+
     doc.setTextColor(0, 0, 0);
 
     // === COMPANY HEADER ===
     yPos = 50;
     doc.setFillColor(240, 240, 240);
     doc.rect(15, yPos, pageWidth - 30, 20, 'F');
-    
+
     doc.setFontSize(16);
     doc.setTextColor(0, 56, 118);
     doc.text(selectedContributor.companyName, 20, yPos + 8);
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
     doc.text(`${selectedContributor.tradeName} - RUC: ${selectedContributor.ruc}`, 20, yPos + 15);
-    
+
     // Risk Badge
     const riskColors: { [key: string]: [number, number, number] } = {
       'bajo': [34, 197, 94],
@@ -332,12 +332,12 @@ export default function ContributorsPage() {
       'crítico': [239, 68, 68]
     };
     const riskColor = riskColors[selectedContributor.riskLevel];
-    doc.setFillColor(...riskColor);
+    doc.setFillColor(riskColor[0], riskColor[1], riskColor[2]);
     doc.roundedRect(pageWidth - 50, yPos + 5, 35, 10, 2, 2, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(8);
     doc.text(`Score: ${selectedContributor.riskScore}`, pageWidth - 48, yPos + 11);
-    
+
     doc.setTextColor(0, 0, 0);
 
     // === SECCIÓN 1: INFORMACIÓN GENERAL ===
@@ -348,42 +348,42 @@ export default function ContributorsPage() {
     doc.setFontSize(12);
     doc.text('1. INFORMACIÓN GENERAL', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 15;
     doc.setFontSize(9);
     const leftCol = 20;
     const rightCol = 110;
-    
+
     doc.text('Representante Legal:', leftCol, yPos);
     doc.text(selectedContributor.legalRep, leftCol + 38, yPos);
-    
+
     doc.text('Sector:', rightCol, yPos);
     doc.text(selectedContributor.sector, rightCol + 15, yPos);
-    
+
     yPos += 6;
     doc.text('Tamaño de Empresa:', leftCol, yPos);
     doc.text(sizeLabels[selectedContributor.size], leftCol + 38, yPos);
-    
+
     doc.text('Estado:', rightCol, yPos);
     doc.setTextColor(selectedContributor.status === 'activo' ? 34 : 239, selectedContributor.status === 'activo' ? 197 : 68, selectedContributor.status === 'activo' ? 94 : 68);
     doc.text(selectedContributor.status.toUpperCase(), rightCol + 15, yPos);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 6;
     doc.text('Dirección:', leftCol, yPos);
     doc.text(`${selectedContributor.address}, ${selectedContributor.district}`, leftCol + 38, yPos);
-    
+
     yPos += 6;
     doc.text('Teléfono:', leftCol, yPos);
     doc.text(selectedContributor.phone, leftCol + 38, yPos);
-    
+
     doc.text('Email:', rightCol, yPos);
     doc.text(selectedContributor.email, rightCol + 15, yPos);
-    
+
     yPos += 6;
     doc.text('Fecha Registro:', leftCol, yPos);
     doc.text(new Date(selectedContributor.registrationDate).toLocaleDateString('es-PE'), leftCol + 38, yPos);
-    
+
     doc.text('Última Declaración:', rightCol, yPos);
     doc.text(new Date(selectedContributor.lastDeclaration).toLocaleDateString('es-PE'), rightCol + 38, yPos);
 
@@ -395,10 +395,10 @@ export default function ContributorsPage() {
     doc.setFontSize(12);
     doc.text('2. INFORMACIÓN FINANCIERA', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 15;
     doc.setFontSize(9);
-    
+
     // Financial Summary Boxes
     doc.setFillColor(59, 130, 246);
     doc.roundedRect(20, yPos, 50, 15, 2, 2, 'F');
@@ -407,14 +407,14 @@ export default function ContributorsPage() {
     doc.text('Ingreso Mensual Prom.', 22, yPos + 5);
     doc.setFontSize(10);
     doc.text(`S/. ${(selectedContributor.monthlyAvgRevenue / 1000).toFixed(0)}K`, 22, yPos + 11);
-    
+
     doc.setFillColor(34, 197, 94);
     doc.roundedRect(75, yPos, 50, 15, 2, 2, 'F');
     doc.setFontSize(7);
     doc.text('Total Impuestos', 77, yPos + 5);
     doc.setFontSize(10);
     doc.text(`S/. ${(selectedContributor.totalTaxes / 1000).toFixed(0)}K`, 77, yPos + 11);
-    
+
     doc.setFillColor(168, 85, 247);
     doc.roundedRect(130, yPos, 50, 15, 2, 2, 'F');
     doc.setFontSize(7);
@@ -422,14 +422,14 @@ export default function ContributorsPage() {
     doc.setFontSize(10);
     const efectiveRate = ((selectedContributor.totalTaxes / (selectedContributor.monthlyAvgRevenue * 12)) * 100).toFixed(1);
     doc.text(`${efectiveRate}%`, 132, yPos + 11);
-    
+
     doc.setTextColor(0, 0, 0);
-    
+
     // Declarations Table
     yPos += 22;
     doc.setFontSize(10);
     doc.text('Declaraciones Recientes (Últimos 6 meses):', 20, yPos);
-    
+
     yPos += 5;
     autoTable(doc, {
       startY: yPos,
@@ -454,7 +454,7 @@ export default function ContributorsPage() {
       },
       theme: 'striped'
     });
-    
+
     yPos = (doc as any).lastAutoTable.finalY + 10;
 
     // === SECCIÓN 3: CUMPLIMIENTO TRIBUTARIO ===
@@ -462,53 +462,53 @@ export default function ContributorsPage() {
       doc.addPage();
       yPos = 20;
     }
-    
+
     doc.setFillColor(0, 56, 118);
     doc.rect(15, yPos, pageWidth - 30, 8, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(12);
     doc.text('3. CUMPLIMIENTO TRIBUTARIO', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 15;
     doc.setFontSize(9);
-    
+
     // Compliance Rate Visual
-    const complianceColor: [number, number, number] = selectedContributor.complianceRate >= 80 ? [34, 197, 94] : 
-                                                       selectedContributor.complianceRate >= 60 ? [234, 179, 8] : 
-                                                       [239, 68, 68];
-    
+    const complianceColor: [number, number, number] = selectedContributor.complianceRate >= 80 ? [34, 197, 94] :
+      selectedContributor.complianceRate >= 60 ? [234, 179, 8] :
+        [239, 68, 68];
+
     doc.setFillColor(240, 240, 240);
     doc.rect(20, yPos, 80, 8, 'F');
-    doc.setFillColor(...complianceColor);
+    doc.setFillColor(complianceColor[0], complianceColor[1], complianceColor[2]);
     doc.rect(20, yPos, (80 * selectedContributor.complianceRate) / 100, 8, 'F');
     doc.setTextColor(0, 0, 0);
     doc.text(`Tasa de Cumplimiento: ${selectedContributor.complianceRate}%`, 22, yPos + 5.5);
-    
+
     yPos += 15;
     doc.text('Indicadores de Cumplimiento:', 20, yPos);
     yPos += 5;
-    
+
     const complianceMetrics = [
       { label: 'Declaraciones a tiempo', value: '92%' },
       { label: 'Pagos puntuales', value: `${selectedContributor.complianceRate}%` },
       { label: 'Documentación completa', value: '88%' }
     ];
-    
+
     complianceMetrics.forEach(metric => {
       doc.setFillColor(245, 245, 245);
       doc.rect(20, yPos, pageWidth - 40, 7, 'F');
       doc.text(`• ${metric.label}:`, 22, yPos + 5);
-      doc.setFont(undefined, 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.text(metric.value, pageWidth - 40, yPos + 5);
-      doc.setFont(undefined, 'normal');
+      doc.setFont('helvetica', 'normal');
       yPos += 8;
     });
-    
+
     // Payment History Table
     yPos += 5;
     doc.text('Historial de Pagos:', 20, yPos);
-    
+
     yPos += 5;
     autoTable(doc, {
       startY: yPos,
@@ -547,7 +547,7 @@ export default function ContributorsPage() {
         }
       }
     });
-    
+
     yPos = (doc as any).lastAutoTable.finalY + 10;
 
     // === SECCIÓN 4: ANÁLISIS DE RIESGO ===
@@ -555,34 +555,34 @@ export default function ContributorsPage() {
       doc.addPage();
       yPos = 20;
     }
-    
+
     doc.setFillColor(0, 56, 118);
     doc.rect(15, yPos, pageWidth - 30, 8, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(12);
     doc.text('4. ANÁLISIS DE RIESGO', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 15;
-    
+
     // Risk Score Circle
     const centerX = 50;
     const centerY = yPos + 20;
     const radius = 18;
-    
-    doc.setFillColor(...riskColor);
+
+    doc.setFillColor(riskColor[0], riskColor[1], riskColor[2]);
     doc.circle(centerX, centerY, radius, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(20);
     doc.text(selectedContributor.riskScore.toString(), centerX, centerY + 2, { align: 'center' });
-    
+
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(10);
     doc.text('Score de Riesgo', centerX, centerY + 25, { align: 'center' });
     doc.setFontSize(9);
-    doc.setTextColor(...riskColor);
+    doc.setTextColor(riskColor[0], riskColor[1], riskColor[2]);
     doc.text(`Nivel ${riskConfig[selectedContributor.riskLevel].label}`, centerX, centerY + 31, { align: 'center' });
-    
+
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(9);
     doc.text(`Nivel de Riesgo: ${riskConfig[selectedContributor.riskLevel].label}`, 80, yPos + 10);
@@ -592,15 +592,15 @@ export default function ContributorsPage() {
     doc.text('• Consistencia en declaraciones', 82, yPos + 29);
     doc.text('• Patrones de pago', 82, yPos + 34);
     doc.text('• Alertas y señales detectadas', 82, yPos + 39);
-    
+
     yPos += 50;
-    
+
     // Risk Flags
     if (selectedContributor.flags.length > 0) {
       doc.setFontSize(10);
       doc.text('Señales de Alerta Detectadas:', 20, yPos);
       yPos += 5;
-      
+
       selectedContributor.flags.forEach((flag, index) => {
         doc.setFillColor(254, 226, 226);
         doc.rect(20, yPos, pageWidth - 40, 8, 'F');
@@ -630,23 +630,23 @@ export default function ContributorsPage() {
       doc.addPage();
       yPos = 20;
     }
-    
+
     doc.setFillColor(0, 56, 118);
     doc.rect(15, yPos, pageWidth - 30, 8, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(12);
     doc.text('5. HISTORIAL DE CASOS', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 15;
-    
+
     const casosData = [
       ['Total de Casos Históricos', selectedContributor.historicalCases.toString()],
       ['Casos Abiertos', selectedContributor.openCases.toString()],
       ['Casos Cerrados', (selectedContributor.historicalCases - selectedContributor.openCases).toString()],
       ['Tasa de Resolución', `${((1 - selectedContributor.openCases / selectedContributor.historicalCases) * 100).toFixed(0)}%`]
     ];
-    
+
     autoTable(doc, {
       startY: yPos,
       head: [['Indicador', 'Valor']],
@@ -665,21 +665,21 @@ export default function ContributorsPage() {
       },
       theme: 'striped'
     });
-    
+
     yPos = (doc as any).lastAutoTable.finalY + 10;
 
     // === FOOTER ===
     const finalY = yPos;
-    
+
     doc.setFillColor(240, 240, 240);
     doc.rect(0, pageHeight - 20, pageWidth, 20, 'F');
-    
+
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
     doc.text(`Generado el ${new Date().toLocaleDateString('es-PE')} a las ${new Date().toLocaleTimeString('es-PE')}`, 15, pageHeight - 12);
     doc.text('SUNAT - Sistema de Fiscalización Inteligente - Reporte Confidencial', 15, pageHeight - 7);
     doc.text(`Página ${doc.internal.pages.length - 1}`, pageWidth - 25, pageHeight - 10);
-    
+
     // Save PDF
     doc.save(`Reporte_${selectedContributor.ruc}_${selectedContributor.companyName.replace(/\s+/g, '_')}.pdf`);
   };
@@ -1078,14 +1078,12 @@ export default function ContributorsPage() {
                       <div className="space-y-4">
                         <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                           <div className="flex items-center gap-3">
-                            <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                              selectedContributor.riskScore >= 70 ? 'bg-red-100' :
+                            <div className={`w-16 h-16 rounded-full flex items-center justify-center ${selectedContributor.riskScore >= 70 ? 'bg-red-100' :
                               selectedContributor.riskScore >= 50 ? 'bg-yellow-100' : 'bg-green-100'
-                            }`}>
-                              <span className={`text-2xl ${
-                                selectedContributor.riskScore >= 70 ? 'text-red-600' :
-                                selectedContributor.riskScore >= 50 ? 'text-yellow-600' : 'text-green-600'
                               }`}>
+                              <span className={`text-2xl ${selectedContributor.riskScore >= 70 ? 'text-red-600' :
+                                selectedContributor.riskScore >= 50 ? 'text-yellow-600' : 'text-green-600'
+                                }`}>
                                 {selectedContributor.riskScore}
                               </span>
                             </div>
@@ -1150,7 +1148,7 @@ export default function ContributorsPage() {
                 <Button variant="outline" onClick={() => setIsDetailOpen(false)}>
                   Cerrar
                 </Button>
-                <Button 
+                <Button
                   className="bg-[#003876] hover:bg-[#002555]"
                   onClick={handleGenerateReport}
                 >

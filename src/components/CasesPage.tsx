@@ -162,8 +162,8 @@ export default function CasesPage() {
 
   const filteredCases = cases.filter(c => {
     const matchesSearch = c.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         c.number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         c.ruc.includes(searchTerm);
+      c.number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.ruc.includes(searchTerm);
     const matchesStatus = statusFilter === 'all' || c.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -198,11 +198,11 @@ export default function CasesPage() {
   const handleDownloadPDF = (caseItem: Case) => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
-    
+
     // Header with SUNAT branding
     doc.setFillColor(0, 56, 118); // #003876
     doc.rect(0, 0, pageWidth, 35, 'F');
-    
+
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(20);
     doc.text('SUNAT', 15, 15);
@@ -210,37 +210,37 @@ export default function CasesPage() {
     doc.text('Superintendencia Nacional de Aduanas y de Administración Tributaria', 15, 23);
     doc.setFontSize(10);
     doc.text('Reporte de Caso de Fiscalización', 15, 30);
-    
+
     // Reset text color
     doc.setTextColor(0, 0, 0);
-    
+
     // Case Number Header
     doc.setFillColor(240, 240, 240);
     doc.rect(15, 45, pageWidth - 30, 15, 'F');
     doc.setFontSize(14);
     doc.setTextColor(0, 56, 118);
     doc.text(`Caso: ${caseItem.number}`, 20, 55);
-    
+
     doc.setTextColor(0, 0, 0);
-    
+
     // Status badge
     let statusColor: [number, number, number] = [200, 200, 200];
     if (caseItem.status === 'abierto') statusColor = [59, 130, 246];
     else if (caseItem.status === 'en-proceso') statusColor = [234, 179, 8];
     else if (caseItem.status === 'cerrado') statusColor = [34, 197, 94];
     else if (caseItem.status === 'suspendido') statusColor = [239, 68, 68];
-    
-    doc.setFillColor(...statusColor);
+
+    doc.setFillColor(statusColor[0], statusColor[1], statusColor[2]);
     doc.roundedRect(pageWidth - 60, 47, 45, 11, 2, 2, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(9);
     doc.text(statusConfig[caseItem.status].label, pageWidth - 57, 54);
-    
+
     doc.setTextColor(0, 0, 0);
-    
+
     // Information Section
     let yPos = 70;
-    
+
     // Section: Información del Contribuyente
     doc.setFillColor(0, 56, 118);
     doc.rect(15, yPos, pageWidth - 30, 8, 'F');
@@ -248,18 +248,18 @@ export default function CasesPage() {
     doc.setFontSize(11);
     doc.text('INFORMACIÓN DEL CONTRIBUYENTE', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 15;
     doc.setFontSize(10);
     doc.text('Razón Social:', 20, yPos);
     doc.text(caseItem.company, 70, yPos);
-    
+
     yPos += 7;
     doc.text('RUC:', 20, yPos);
-    doc.setFont(undefined, 'bold');
+    doc.setFont('helvetica', 'bold');
     doc.text(caseItem.ruc, 70, yPos);
-    doc.setFont(undefined, 'normal');
-    
+    doc.setFont('helvetica', 'normal');
+
     // Section: Detalles del Caso
     yPos += 12;
     doc.setFillColor(0, 56, 118);
@@ -268,37 +268,37 @@ export default function CasesPage() {
     doc.setFontSize(11);
     doc.text('DETALLES DEL CASO', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 15;
     doc.setFontSize(10);
-    
+
     const leftCol = 20;
     const rightCol = 110;
-    
+
     doc.text('Tipo de Fiscalización:', leftCol, yPos);
     doc.text(caseItem.type, leftCol + 50, yPos);
-    
+
     doc.text('Prioridad:', rightCol, yPos);
     const priorityLabel = priorityConfig[caseItem.priority].label;
-    doc.setTextColor(caseItem.priority === 'alta' ? 239 : caseItem.priority === 'media' ? 234 : 100, 
-                     caseItem.priority === 'alta' ? 68 : caseItem.priority === 'media' ? 179 : 100, 
-                     caseItem.priority === 'alta' ? 68 : 8);
+    doc.setTextColor(caseItem.priority === 'alta' ? 239 : caseItem.priority === 'media' ? 234 : 100,
+      caseItem.priority === 'alta' ? 68 : caseItem.priority === 'media' ? 179 : 100,
+      caseItem.priority === 'alta' ? 68 : 8);
     doc.text(priorityLabel, rightCol + 22, yPos);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 7;
     doc.text('Auditor Asignado:', leftCol, yPos);
     doc.text(caseItem.auditor, leftCol + 50, yPos);
-    
+
     doc.text('Hallazgos:', rightCol, yPos);
     doc.setTextColor(caseItem.findings > 0 ? 239 : 100, caseItem.findings > 0 ? 68 : 100, 68);
     doc.text(`${caseItem.findings}`, rightCol + 22, yPos);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 7;
     doc.text('Fecha Apertura:', leftCol, yPos);
     doc.text(new Date(caseItem.openDate).toLocaleDateString('es-PE'), leftCol + 50, yPos);
-    
+
     if (caseItem.closeDate) {
       doc.text('Fecha Cierre:', rightCol, yPos);
       doc.text(new Date(caseItem.closeDate).toLocaleDateString('es-PE'), rightCol + 22, yPos);
@@ -306,14 +306,14 @@ export default function CasesPage() {
     } else {
       yPos += 7;
     }
-    
+
     doc.text('Monto en Revisión:', leftCol, yPos);
-    doc.setFont(undefined, 'bold');
+    doc.setFont('helvetica', 'bold');
     doc.setTextColor(0, 56, 118);
     doc.text(`S/. ${caseItem.amount.toLocaleString('es-PE')}`, leftCol + 50, yPos);
-    doc.setFont(undefined, 'normal');
+    doc.setFont('helvetica', 'normal');
     doc.setTextColor(0, 0, 0);
-    
+
     // Description Section
     yPos += 12;
     doc.setFillColor(0, 56, 118);
@@ -322,24 +322,24 @@ export default function CasesPage() {
     doc.setFontSize(11);
     doc.text('DESCRIPCIÓN', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 12;
     doc.setFontSize(9);
     const descriptionLines = doc.splitTextToSize(caseItem.description, pageWidth - 50);
     doc.text(descriptionLines, 20, yPos);
-    
+
     // Activities Timeline Table
     yPos += descriptionLines.length * 5 + 10;
-    
+
     doc.setFillColor(0, 56, 118);
     doc.rect(15, yPos, pageWidth - 30, 8, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(11);
     doc.text('LÍNEA DE TIEMPO DE ACTIVIDADES', 20, yPos + 5.5);
     doc.setTextColor(0, 0, 0);
-    
+
     yPos += 12;
-    
+
     // Use autoTable for activities
     autoTable(doc as any, {
       startY: yPos,
@@ -351,18 +351,18 @@ export default function CasesPage() {
         activity.user
       ]),
       margin: { left: 15, right: 15 },
-      headStyles: { 
+      headStyles: {
         fillColor: [0, 56, 118],
         textColor: [255, 255, 255],
         fontSize: 10,
         fontStyle: 'bold'
       },
-      bodyStyles: { 
+      bodyStyles: {
         fontSize: 9,
         textColor: [60, 60, 60]
       },
-      alternateRowStyles: { 
-        fillColor: [245, 245, 245] 
+      alternateRowStyles: {
+        fillColor: [245, 245, 245]
       },
       columnStyles: {
         0: { cellWidth: 25 },
@@ -372,20 +372,20 @@ export default function CasesPage() {
       },
       theme: 'striped'
     });
-    
+
     // Footer
     const finalY = (doc as any).lastAutoTable.finalY || yPos + 50;
     const pageHeight = doc.internal.pageSize.getHeight();
-    
+
     doc.setFillColor(240, 240, 240);
     doc.rect(0, pageHeight - 20, pageWidth, 20, 'F');
-    
+
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
     doc.text(`Generado el ${new Date().toLocaleDateString('es-PE')} a las ${new Date().toLocaleTimeString('es-PE')}`, 15, pageHeight - 12);
     doc.text('SUNAT - Sistema de Fiscalización Inteligente', 15, pageHeight - 7);
     doc.text(`Página 1`, pageWidth - 25, pageHeight - 10);
-    
+
     // Save the PDF
     doc.save(`Caso_${caseItem.number}.pdf`);
   };
@@ -710,7 +710,7 @@ export default function CasesPage() {
                 <Button variant="outline" onClick={() => setIsDetailOpen(false)}>
                   Cerrar
                 </Button>
-                <Button 
+                <Button
                   className="bg-[#003876] hover:bg-[#002555]"
                   onClick={() => {
                     setIsDetailOpen(false);
@@ -876,7 +876,7 @@ export default function CasesPage() {
                 <Label htmlFor="priority">Prioridad</Label>
                 <Select
                   value={editFormData.priority || ''}
-                  onValueChange={(value) => setEditFormData({ ...editFormData, priority: value })}
+                  onValueChange={(value) => setEditFormData({ ...editFormData, priority: value as Case['priority'] })}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Seleccionar prioridad" />

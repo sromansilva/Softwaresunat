@@ -2,6 +2,7 @@ import { useState } from 'react';
 import LoginPage from './components/LoginPage';
 import DashboardPage from './components/DashboardPage';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { Toaster } from './components/ui/sonner';
 
 interface User {
   code: string;
@@ -30,13 +31,14 @@ export default function App() {
       {!isLoggedIn || !currentUser ? (
         <LoginPage onLogin={handleLogin} />
       ) : (
-        <DashboardPage 
-          currentView={currentView} 
+        <DashboardPage
+          currentView={currentView}
           onViewChange={setCurrentView}
           onLogout={handleLogout}
           currentUser={currentUser}
         />
       )}
+      <Toaster />
     </ThemeProvider>
   );
 }
