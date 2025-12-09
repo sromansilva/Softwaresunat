@@ -5,7 +5,7 @@ import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Toolti
 
 const aiInsights = [
   {
-    title: 'Patrón de Evasión Detectado',
+    title: 'Patrón de Evasión Detectado o ño',
     description: 'Se identificó un patrón común en 23 empresas del sector construcción que subvaloran facturas de importación.',
     severity: 'high',
     confidence: 94,
@@ -88,12 +88,10 @@ export default function AIAnalytics() {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                      insight.severity === 'high' ? 'bg-red-100' : 'bg-green-100'
-                    }`}>
-                      <Icon className={`w-5 h-5 ${
-                        insight.severity === 'high' ? 'text-red-600' : 'text-green-600'
-                      }`} />
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${insight.severity === 'high' ? 'bg-red-100' : 'bg-green-100'
+                      }`}>
+                      <Icon className={`w-5 h-5 ${insight.severity === 'high' ? 'text-red-600' : 'text-green-600'
+                        }`} />
                     </div>
                     <CardTitle className="text-base">{insight.title}</CardTitle>
                   </div>
@@ -188,7 +186,7 @@ export default function AIAnalytics() {
         <CardContent>
           <div className="space-y-4">
             {suspiciousCompanies.map((company, index) => (
-              <div 
+              <div
                 key={index}
                 className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors"
               >
@@ -204,7 +202,7 @@ export default function AIAnalytics() {
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className="h-full bg-gradient-to-r from-orange-500 to-red-600"
                         style={{ width: `${company.score}%` }}
                       ></div>
@@ -234,7 +232,7 @@ export default function AIAnalytics() {
             <div className="flex-1">
               <h4 className="text-gray-900 mb-2">Modelo de IA Activo</h4>
               <p className="text-sm text-gray-600 mb-3">
-                El sistema utiliza algoritmos de machine learning para analizar patrones de comportamiento tributario, 
+                El sistema utiliza algoritmos de machine learning para analizar patrones de comportamiento tributario,
                 detectar anomalías y predecir riesgos de evasión fiscal con alta precisión.
               </p>
               <div className="grid grid-cols-3 gap-4">
