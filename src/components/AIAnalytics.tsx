@@ -26,7 +26,7 @@ const aiInsights = [
     icon: CheckCircle2,
   },
   {
-    title: 'Red de Empresas Vinculadas',
+    title: 'Red de Empresas Vinculadas oño',
     description: 'Se detectó una red de 8 empresas con directores comunes que realizan triangulación de facturas.',
     severity: 'high',
     confidence: 87,
