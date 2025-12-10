@@ -12,7 +12,7 @@ const aiInsights = [
     icon: AlertCircle,
   },
   {
-    title: 'Anomalía en Declaraciones',
+    title: 'Anomalía en Declaraciones de Importaciones',
     description: '15 contribuyentes muestran inconsistencias significativas entre sus ventas declaradas y movimientos bancarios.',
     severity: 'high',
     confidence: 89,
@@ -26,7 +26,7 @@ const aiInsights = [
     icon: CheckCircle2,
   },
   {
-    title: 'Red de Empresas Vinculadas oño',
+    title: 'Red de Empresas Vinculadas',
     description: 'Se detectó una red de 8 empresas con directores comunes que realizan triangulación de facturas.',
     severity: 'high',
     confidence: 87,
