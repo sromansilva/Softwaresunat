@@ -19,7 +19,7 @@ const aiInsights = [
     icon: AlertCircle,
   },
   {
-    title: 'Tendencia Positiva oñooA',
+    title: 'Tendencia Positiva oñooAA',
     description: 'El cumplimiento tributario en el sector retail ha aumentado un 12% en el último trimestre.',
     severity: 'low',
     confidence: 91,
