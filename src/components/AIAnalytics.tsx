@@ -5,21 +5,21 @@ import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Toolti
 
 const aiInsights = [
   {
-    title: 'Patrón de Evasión Detectado o ño',
+    title: 'Patrón de Evasión Detectado',
     description: 'Se identificó un patrón común en 23 empresas del sector construcción que subvaloran facturas de importación.',
     severity: 'high',
     confidence: 94,
     icon: AlertCircle,
   },
   {
-    title: 'Anomalía en Declaraciones aña',
+    title: 'Anomalía en Declaraciones',
     description: '15 contribuyentes muestran inconsistencias significativas entre sus ventas declaradas y movimientos bancarios.',
     severity: 'high',
     confidence: 89,
     icon: AlertCircle,
   },
   {
-    title: 'Tendencia Positiva oñooAA',
+    title: 'Tendencia Positiva',
     description: 'El cumplimiento tributario en el sector retail ha aumentado un 12% en el último trimestre.',
     severity: 'low',
     confidence: 91,
