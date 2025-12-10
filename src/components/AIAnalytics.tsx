@@ -19,14 +19,14 @@ const aiInsights = [
     icon: AlertCircle,
   },
   {
-    title: 'Tendencia Positiva oñooAA',
+    title: 'Tendencia Positiva oñooo A',
     description: 'El cumplimiento tributario en el sector retail ha aumentado un 12% en el último trimestre.',
     severity: 'low',
     confidence: 91,
     icon: CheckCircle2,
   },
   {
-    title: 'Red de Empresas Vinculadas',
+    title: 'Red de Empresas Vinculadas oño',
     description: 'Se detectó una red de 8 empresas con directores comunes que realizan triangulación de facturas.',
     severity: 'high',
     confidence: 87,
