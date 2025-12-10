@@ -12,7 +12,7 @@ const aiInsights = [
     icon: AlertCircle,
   },
   {
-    title: 'Anomalía en Declaraciones',
+    title: 'Anomalía en DeclaracionesS',
     description: '15 contribuyentes muestran inconsistencias significativas entre sus ventas declaradas y movimientos bancarios.',
     severity: 'high',
     confidence: 89,
