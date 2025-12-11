@@ -5,7 +5,7 @@ import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Toolti
 
 const aiInsights = [
   {
-    title: 'Patrón de Evasión Detectado',
+    title: 'Patrón de Evasión Detectado oño',
     description: 'Se identificó un patrón común en 23 empresas del sector construcción que subvaloran facturas de importación.',
     severity: 'high',
     confidence: 94,
