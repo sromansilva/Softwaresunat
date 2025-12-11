@@ -12,7 +12,7 @@ const aiInsights = [
     icon: AlertCircle,
   },
   {
-    title: 'Anomalía en Declaraciones de Importaciones',
+    title: 'Anomalía en Declaraciones de Importaciones GATOOOOOOO',
     description: '15 contribuyentes muestran inconsistencias significativas entre sus ventas declaradas y movimientos bancarios.',
     severity: 'high',
     confidence: 89,
